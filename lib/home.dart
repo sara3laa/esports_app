@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:esports_app/articles.dart';
+import 'package:esports_app/products.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage>{
 
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.redAccent,
         title: Text('Fitbuzz'),
         actions: <Widget>[
           new IconButton(icon: Icon(Icons.search,color: Colors.white) , onPressed: (){}),
@@ -46,11 +47,11 @@ class _HomePageState extends State<HomePage>{
               accountName: Text('Sara Alaa'),
               accountEmail: Text('sara@example.com'),
               currentAccountPicture: GestureDetector(
-                child: new CircleAvatar(backgroundColor: Colors.deepOrangeAccent,
-                  child: Icon(Icons.person , color:Colors.white),),
+                child: new CircleAvatar(backgroundColor: Colors.white,
+                  child: Icon(Icons.person , color:Colors.blueAccent),),
               ),
               decoration: new BoxDecoration(
-                  color: Colors.deepOrangeAccent
+                  color: Colors.redAccent
               ),
             ),
 
@@ -103,12 +104,18 @@ class _HomePageState extends State<HomePage>{
       ),
       body: new Column(
         children: <Widget>[
-          image_carousel,
-          new Padding(padding: const EdgeInsets.all(4.0),
+          new Padding(padding: const EdgeInsets.all(2.0),
             child: Container(
               alignment: Alignment.centerLeft,
+              child: Text('Articles',style: TextStyle(fontSize: 20.0,color: Colors.pinkAccent)),
             ),),
-           ArticleListPage()
+           ArticleListPage(),
+          new Padding(padding: const EdgeInsets.all(2.0),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Text('Products',style: TextStyle(fontSize: 20.0,color: Colors.pinkAccent)),
+            ),),
+          ProductListPage(),
         ],
 
       ),

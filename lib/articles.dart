@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:esports_app/util/network.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 
 class ArticleListPage extends StatefulWidget{
@@ -21,12 +22,13 @@ class _ArticlesListPageState extends State<ArticleListPage> {
 
   @override
   Widget build(BuildContext context) {
+
     Size screenSize = MediaQuery.of(context).size;
     return Card(
+      color: Colors.white,
       child: Container(
         width: screenSize.width,
         height: (screenSize.height)/3,
-
       child: FutureBuilder(
           future: Network().getArticles(),
           builder:(BuildContext context, AsyncSnapshot snap){
@@ -35,36 +37,40 @@ class _ArticlesListPageState extends State<ArticleListPage> {
       }
             else {
 
-                     return ListView.builder(
+              var indces = new List<int>.generate(snap.data.length -1, (i) => i + 1);
 
-                       scrollDirection: Axis.horizontal,
-                         itemCount: snap.data.length,
+              return CarouselSlider(
+                       height: (screenSize.height/3),
 
-                         itemBuilder: (BuildContext context ,int index){
-                           return new Column(
-                             children: <Widget>[
+                       items: indces.map((i) {
+                         return Builder(
+                           builder: (BuildContext context) {
+                             return Container(
+                                 width: MediaQuery.of(context).size.width,
+                                 margin: EdgeInsets.symmetric(horizontal: 2.0),
 
-                               new FadeInImage.memoryNetwork(
-
-                                 placeholder: kTransparentImage,
-                                 image: snap.data[index].image,
-                                 alignment: Alignment.topCenter,
-                                 width: (screenSize.width),
-                                 height: (screenSize.height-100.0)/3,
-                                 fit: BoxFit.fill,
-                               ),
-                               new Padding(
-                                 padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 0.0),
-                                 child: new Text(
-                                   snap.data[index].title,
-                                   style:
-                                   new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                                 ),
-                               ),
-
-                             ],
-                           );
-                         },);
+                                 child: InkWell(
+                                   onTap: (){},
+                                   child: Column(
+                                     children: <Widget>[
+                                       Padding(padding: EdgeInsets.all(5.0)),
+                                       new FadeInImage.memoryNetwork(
+                                         placeholder: kTransparentImage,
+                                         image: snap.data[i].image,
+                                         alignment: Alignment.center,
+                                         width: (screenSize.width),
+                                         height: (screenSize.height/3)-50.0,
+                                         fit: BoxFit.fill,
+                                       ),
+                                      new Text(snap.data[i].title, style: TextStyle(fontSize: 16.0,color: Colors.lightBlue)
+                                 )],
+                                 )
+                             )
+                             );
+                           },
+                         );
+                       }).toList(),
+                     );
               }
       },
 
